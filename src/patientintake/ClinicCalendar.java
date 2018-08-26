@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ClinicCalendar {
 
@@ -21,11 +22,10 @@ public class ClinicCalendar {
       Doctor doc = Doctor.valueOf(doctorKey.toLowerCase());
       LocalDateTime localDateTime;
       try {
-         System.out.println("Creating for today.");
          if (dateTime.toLowerCase().startsWith("today")) {
             String[] parts = dateTime.split(" ", 2);
-            System.out.println("time pattern is : [" + parts[1] + "]");
-            LocalTime time = LocalTime.parse(parts[1].toUpperCase(), DateTimeFormatter.ofPattern("h:mm a", Locale.US));
+            LocalTime time = LocalTime.parse(parts[1].toUpperCase(),
+               DateTimeFormatter.ofPattern("h:mm a", Locale.US));
             localDateTime = LocalDateTime.of(today, time);
          }
          else {
@@ -43,6 +43,17 @@ public class ClinicCalendar {
 
    public List<PatientAppointment> getAppointments() {
       return this.appointments;
+   }
+
+   public List<PatientAppointment> getTodayAppointments() {
+      return appointments.stream()
+         .filter(appt -> appt.getAppointmentDateTime().toLocalDate().equals(today))
+         .collect(Collectors.toList());
+   }
+
+   public boolean hasAppointment(LocalDate date) {
+      return appointments.stream()
+         .anyMatch(appt -> appt.getAppointmentDateTime().toLocalDate().equals(date));
    }
 
 }
