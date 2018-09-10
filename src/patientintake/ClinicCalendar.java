@@ -20,26 +20,31 @@ public class ClinicCalendar {
    public void addAppointment(String patientFirstName, String patientLastName, String doctorKey,
                               String dateTime) {
       Doctor doc = Doctor.valueOf(doctorKey.toLowerCase());
-      LocalDateTime localDateTime;
-      try {
-         if (dateTime.toLowerCase().startsWith("today")) {
-            String[] parts = dateTime.split(" ", 2);
-            LocalTime time = LocalTime.parse(parts[1].toUpperCase(),
-               DateTimeFormatter.ofPattern("h:mm a", Locale.US));
-            localDateTime = LocalDateTime.of(today, time);
-         }
-         else {
-            localDateTime = LocalDateTime.parse(dateTime.toUpperCase(),
-               DateTimeFormatter.ofPattern("M/d/yyyy h:mm a", Locale.US));
-         }
-      } catch (Throwable t) {
-         throw new RuntimeException("Unable to create date time from: [" +
-            dateTime + "], please enter with format [M/d/yyyy h:mm a], " + t.getMessage());
-      }
+      LocalDateTime localDateTime = DateTimeConverter.convertStringToDateTime(dateTime, today);
       PatientAppointment appointment = new PatientAppointment(patientFirstName, patientLastName,
          localDateTime, doc);
       appointments.add(appointment);
    }
+
+//   private LocalDateTime convertToDateTimeFromString(String dateTime) {
+//      LocalDateTime localDateTime;
+//      try {
+//         if (dateTime.toLowerCase().startsWith("today")) {
+//            String[] parts = dateTime.split(" ", 2);
+//            LocalTime time = LocalTime.parse(parts[1].toUpperCase(),
+//               DateTimeFormatter.ofPattern("h:mm a", Locale.US));
+//            localDateTime = LocalDateTime.of(today, time);
+//         }
+//         else {
+//            localDateTime = LocalDateTime.parse(dateTime.toUpperCase(),
+//               DateTimeFormatter.ofPattern("M/d/yyyy h:mm a", Locale.US));
+//         }
+//      } catch (Throwable t) {
+//         throw new RuntimeException("Unable to create date time from: [" +
+//            dateTime + "], please enter with format [M/d/yyyy h:mm a], " + t.getMessage());
+//      }
+//      return localDateTime;
+//   }
 
    public List<PatientAppointment> getAppointments() {
       return this.appointments;
