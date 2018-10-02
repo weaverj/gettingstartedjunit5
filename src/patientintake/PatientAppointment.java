@@ -8,6 +8,7 @@ public class PatientAppointment {
    private String patientLastName;
    private LocalDateTime appointmentDateTime;
    private Doctor doctor;
+   private double apptBmi;
 
    public PatientAppointment(String patientFirstName, String patientLastName, LocalDateTime appointmentDateTime, Doctor doctor) {
       this.patientFirstName = patientFirstName;
@@ -30,5 +31,13 @@ public class PatientAppointment {
 
    public Doctor getDoctor() {
       return doctor;
+   }
+
+   public void setBmi(double bmi) {
+      apptBmi = bmi;
+   }
+
+   public double getApptBmi() {
+      return apptBmi;
    }
 }
