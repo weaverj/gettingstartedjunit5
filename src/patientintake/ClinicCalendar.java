@@ -36,6 +36,12 @@ public class ClinicCalendar {
       return getAppointmentsForDate(tomorrow);
    }
 
+   public List<PatientAppointment> getUpcomingAppointments() {
+      return appointments.stream()
+         .filter(appt -> appt.getAppointmentDateTime().toLocalDate().isAfter(today))
+         .collect(Collectors.toList());
+   }
+
    private List<PatientAppointment> getAppointmentsForDate(LocalDate tomorrow) {
       return appointments.stream()
          .filter(appt -> appt.getAppointmentDateTime().toLocalDate().equals(tomorrow))
