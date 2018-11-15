@@ -9,4 +9,4 @@ This repository contains source code examples for the [Pluralsight](http://plura
 
 ## Branches
 
-The trunk represents the system state at the beginning of the course, and there are branches that correspond to the beginning state for each course module.  Simply clone the appropriate branch from where you wish to start work.
+The master branch represents the system state at the beginning of the course, and there are other branches that correspond to the beginning state for each course module.  Simply clone the appropriate branch from where you wish to start work.
