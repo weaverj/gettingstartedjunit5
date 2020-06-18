@@ -5,6 +5,7 @@ import org.junit.jupiter.api.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,7 +32,7 @@ class ClinicCalendarShould {
          () -> assertEquals("Weaver", enteredAppt.getPatientLastName()),
          () -> assertSame(Doctor.avery, enteredAppt.getDoctor()),
          () -> assertEquals("9/1/2018 02:00 PM",
-            enteredAppt.getAppointmentDateTime().format(DateTimeFormatter.ofPattern("M/d/yyyy hh:mm a")))
+            enteredAppt.getAppointmentDateTime().format(DateTimeFormatter.ofPattern("M/d/yyyy hh:mm a", Locale.US)))
       );
    }
 
