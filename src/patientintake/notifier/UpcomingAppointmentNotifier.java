@@ -9,23 +9,18 @@ import java.util.Locale;
 public class UpcomingAppointmentNotifier {
 
    private ClinicCalendar calendar;
-   private EmailNotifier notifier;
 
-   public UpcomingAppointmentNotifier(ClinicCalendar calendar, EmailNotifier notifier) {
-      this.notifier = notifier;
+   public UpcomingAppointmentNotifier(ClinicCalendar calendar) {
       this.calendar = calendar;
    }
 
    public void run() {
       calendar.getTomorrowAppointments().forEach(appt -> {
-         sendNotificationForAppointment(appt);
+         SmtpMessageSender notifier = new SmtpMessageSender();
+         String email = appt.getPatientLastName().toLowerCase() + appt.getPatientFirstName().toLowerCase() + "@mail.com";
+         System.out.println("Sending with body: " + buildMessageBody(appt));
+         notifier.sendNotification("Appointment Reminder", buildMessageBody(appt), email);
       });
-   }
-
-   private void sendNotificationForAppointment(PatientAppointment appt) {
-      String email = appt.getPatientLastName().toLowerCase() + appt.getPatientFirstName().toLowerCase() + "@mail.com";
-      System.out.println("Sending with body: " + buildMessageBody(appt));
-      notifier.sendNotification("Appointment Reminder", buildMessageBody(appt), email);
    }
 
    private String buildMessageBody(PatientAppointment appt) {

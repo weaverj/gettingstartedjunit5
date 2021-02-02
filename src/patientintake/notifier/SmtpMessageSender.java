@@ -7,9 +7,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
-public class SmtpMessageSender implements EmailNotifier {
+public class SmtpMessageSender {
 
-   @Override
    public void sendNotification(String subject, String body, String address) {
       Properties properties = System.getProperties();
       properties.put("mail.smtp.host", "localhost");
