@@ -1,5 +1,6 @@
 package patientintake;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -17,8 +18,9 @@ class ClinicCalendarShould {
 
   @BeforeEach
   void setUp() {
-    calendar = new ClinicCalendar(LocalDate.of(2021,7,12));
+    calendar = new ClinicCalendar(LocalDate.of(2021, 7, 12));
   }
+
   @Test
   void allowEntryOfAnAppointment() {
     calendar.addAppointment("Timothy", "Stone", "Avery", "07/12/2021 07:00 am");
@@ -26,11 +28,14 @@ class ClinicCalendarShould {
     assertNotNull(appointments);
     assertEquals(1, appointments.size());
     PatientAppointment appointment = appointments.get(0);
-    assertEquals("Timothy", appointment.getPatientFirstName());
-    assertEquals("Stone", appointment.getPatientLastName());
-    assertEquals(Doctor.avery, appointment.getDoctor());
-    assertEquals("7/12/2021 07:00 AM",
-        appointment.getAppointmentDateTime().format(DateTimeFormatter.ofPattern("M/d/yyyy hh:mm a")));
+
+    assertAll(
+        () -> assertEquals("Timothy", appointment.getPatientFirstName()),
+        () -> assertEquals("Stone", appointment.getPatientLastName()),
+        () -> assertEquals(Doctor.avery, appointment.getDoctor()),
+        () -> assertEquals("7/12/2021 07:00 AM",
+            appointment.getAppointmentDateTime().format(DateTimeFormatter.ofPattern("M/d/yyyy hh:mm a")))
+    );
   }
 
   @Test
