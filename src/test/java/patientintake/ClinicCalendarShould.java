@@ -1,8 +1,11 @@
 package patientintake;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -11,7 +14,7 @@ class ClinicCalendarShould {
 
   @Test
   void allowEntryOfAnAppointment() {
-    ClinicCalendar calendar = new ClinicCalendar();
+    ClinicCalendar calendar = new ClinicCalendar(LocalDate.of(2021,7,12));
     calendar.addAppointment("Timothy", "Stone", "Avery", "07/12/2021 07:00 am");
     List<PatientAppointment> appointments = calendar.getAppointments();
     assertNotNull(appointments);
@@ -22,5 +25,19 @@ class ClinicCalendarShould {
     assertEquals(Doctor.avery, appointment.getDoctor());
     assertEquals("7/12/2021 07:00 AM",
         appointment.getAppointmentDateTime().format(DateTimeFormatter.ofPattern("M/d/yyyy hh:mm a")));
+  }
+
+  @Test
+  void returnTrueForHasAppointmentsIfThereAreAppointments() {
+    ClinicCalendar calendar = new ClinicCalendar(LocalDate.of(2021,7,12));
+    calendar.addAppointment("Timothy", "Stone", "Avery", "07/12/2021 07:00 am");
+    assertTrue(calendar.hasAppointment(LocalDate.of(2021, 7, 12)));
+  }
+
+  @Test
+  void returnFalseForHasAppointmentsIfThereAreNoAppointments() {
+    ClinicCalendar calendar = new ClinicCalendar(LocalDate.of(2021,7,12));
+    assertFalse(calendar.hasAppointment(LocalDate.of(2021, 7, 12)));
+
   }
 }
